@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux';
 import words from '../mock/words'
+import _ from 'lodash'
 
 const initialState = {
   word: words[0].word,
-  guess: "",
+  guess: _.shuffle( words[0].word.split("") ).join(""),
   correctGuess: false
 }
 
@@ -25,9 +25,5 @@ const wordsApp = (state = initialState, action) => {
       return state
   }
 }
-
-// const wordsApp = combineReducers({
-//   correctGuess
-// })
 
 export default wordsApp

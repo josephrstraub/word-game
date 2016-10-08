@@ -9,11 +9,26 @@ class WordBlocks extends Component {
       updateWord();
     }
   }
+  dragStartHandler(key, event) {
+    console.log(key);
+  }
+  dropHandler(key, event) {
+    event.preventDefault();
+    console.log(key);
+  }
+  dragOverHandler(key, event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move"
+  }
   render() {
-    let { word, updateGuess } = this.props;
-    let blocks = word.split("").map((letter, index) => <WordBlock letter={letter} key={index}/>)
+    let { guess, updateGuess } = this.props;
+    let blocks = guess.split("").map((letter, index) => (
+      <WordBlock letter={letter} key={index} id={index} dragStartHandler={this.dragStartHandler}
+        dropHandler={this.dropHandler} dragOverHandler={this.dragOverHandler}/>
+    ))
     return (
       <div>
+        <ul style={{display: "flex", listStyleType: "none", padding: "0"}}>{blocks}</ul>
         <input type="text" onChange={updateGuess}/>
       </div>
     )
