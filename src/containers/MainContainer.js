@@ -1,13 +1,14 @@
 import { connect } from 'react-redux'
-import { updateGuess } from '../actions'
+import { updateGuess, updateWord } from '../actions'
 import WordBlocks from '../components/WordBlocks'
 
 const mapStateToProps = (state) => ({
   word: state.word,
-  guess: state.guess
+  guess: state.guess,
+  correctGuess: state.correctGuess
 })
 
-const mapDispatchToProps = ({updateGuess})
+const mapDispatchToProps = ({updateGuess, updateWord})
 
 const MainContainer = connect(
   mapStateToProps,

@@ -7,40 +7,27 @@ const initialState = {
   correctGuess: false
 }
 
-const guess = (state = initialState.guess, action) => {
+const wordsApp = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_GUESS':
-      return action.guess
-    default:
-      return state
-  }
-}
-
-const word = (state = initialState.word, action) => {
-  switch (action.type) {
-    case 'NEW_WORD':
-      return words[1].word
-    default:
-      return state
-  }
-}
-
-const correctGuess = (state = false, action) => {
-  switch (action.type) {
-    case 'UPDATE_GUESS':
-      if ( action.guess === word(undefined, action) ) {
-        return true
+      return {
+        ...state,
+        guess: action.guess,
+        correctGuess: action.guess === state.word
       }
-      return state
+    case 'NEW_WORD':
+      return {
+        ...state,
+        word: words[1].word,
+        correctGuess: false
+      }
     default:
       return state
   }
 }
 
-const wordsApp = combineReducers({
-  guess,
-  word,
-  correctGuess
-})
+// const wordsApp = combineReducers({
+//   correctGuess
+// })
 
 export default wordsApp
