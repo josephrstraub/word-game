@@ -1,8 +1,13 @@
-export const updateGuess = (event) => ({
+export const updateGuess = (key) => ({
   type: 'UPDATE_GUESS',
-  guess: event.target.value
+  key
 })
 
 export const updateWord = () => ({
   type: 'NEW_WORD'
+})
+
+export const updateSelectedLetter = (key) => ({
+  type: 'UPDATE_SELECTED_LETTER',
+  key
 })

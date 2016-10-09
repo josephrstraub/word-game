@@ -3,6 +3,12 @@ import WordBlock from './WordBlock'
 
 
 class WordBlocks extends Component {
+  constructor() {
+    super();
+    this.dragStartHandler = this.dragStartHandler.bind(this);
+    this.dropHandler = this.dropHandler.bind(this);
+    this.dragOverHandler = this.dragOverHandler.bind(this);
+  }
   componentWillReceiveProps(nextProps) {
     let { correctGuess, updateWord } = nextProps;
     if (correctGuess) {
@@ -11,14 +17,15 @@ class WordBlocks extends Component {
   }
   dragStartHandler(key, event) {
     console.log(key);
+    console.log(this.props);
+    this.props.updateSelectedLetter(key);
   }
   dropHandler(key, event) {
     event.preventDefault();
-    console.log(key);
+    this.props.updateGuess(key);
   }
-  dragOverHandler(key, event) {
+  dragOverHandler(event) {
     event.preventDefault();
-    event.dataTransfer.dropEffect = "move"
   }
   render() {
     let { guess, updateGuess } = this.props;
@@ -29,7 +36,6 @@ class WordBlocks extends Component {
     return (
       <div>
         <ul style={{display: "flex", listStyleType: "none", padding: "0"}}>{blocks}</ul>
-        <input type="text" onChange={updateGuess}/>
       </div>
     )
   }
