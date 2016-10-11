@@ -9,14 +9,16 @@ class WordBlocks extends Component {
     this.dropHandler = this.dropHandler.bind(this);
     this.dragOverHandler = this.dragOverHandler.bind(this);
   }
+  componentWillMount() {
+    this.props.startGame();
+  }
   componentWillReceiveProps(nextProps) {
     let { correctGuess, updateWord } = nextProps;
     if (correctGuess) {
-      updateWord();
+      window.setTimeout(updateWord, 3000)
     }
   }
   dragStartHandler(key, event) {
-    console.log(key);
     console.log(this.props);
     this.props.updateSelectedLetter(key);
   }
@@ -28,14 +30,14 @@ class WordBlocks extends Component {
     event.preventDefault();
   }
   render() {
-    let { guess, updateGuess } = this.props;
+    let { guess, correctGuess } = this.props;
     let blocks = guess.split("").map((letter, index) => (
-      <WordBlock letter={letter} key={index} id={index} dragStartHandler={this.dragStartHandler}
+      <WordBlock letter={letter} correctGuess={correctGuess} key={index} id={index} dragStartHandler={this.dragStartHandler}
         dropHandler={this.dropHandler} dragOverHandler={this.dragOverHandler}/>
     ))
     return (
       <div>
-        <ul style={{display: "flex", listStyleType: "none", padding: "0"}}>{blocks}</ul>
+        <ul style={{display: "flex", listStyleType: "none", justifyContent: "center", padding: "0"}}>{blocks}</ul>
       </div>
     )
   }

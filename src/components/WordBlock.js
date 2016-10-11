@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 
 class WordBlock extends Component {
   render() {
-    let { letter, id, dragStartHandler, dragOverHandler, dropHandler } = this.props;
+    const { letter, correctGuess, id, dragStartHandler, dragOverHandler, dropHandler } = this.props;
     return (
-      <li style={{width: "10%", textAlign: "center", border: "3px solid orange"}}
+      <li style={{width: "10%", textAlign: "center", borderColor: correctGuess ? "green" : "orange"}}
         draggable="true"
         onDragStart={dragStartHandler.bind(this, id)}
         onDragOver={dragOverHandler}
