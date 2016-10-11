@@ -5,12 +5,12 @@ import WordBlock from './WordBlock'
 class WordBlocks extends Component {
   constructor() {
     super();
-    this.dragStartHandler = this.dragStartHandler.bind(this);
-    this.dropHandler = this.dropHandler.bind(this);
-    this.dragOverHandler = this.dragOverHandler.bind(this);
+    this.dragStartHandler = this.dragStartHandler.bind(this)
+    this.dropHandler = this.dropHandler.bind(this)
+    this.dragOverHandler = this.dragOverHandler.bind(this)
   }
   componentWillMount() {
-    this.props.startGame();
+    this.props.startGame()
   }
   componentWillReceiveProps(nextProps) {
     let { correctGuess, updateWord } = nextProps;
@@ -19,15 +19,19 @@ class WordBlocks extends Component {
     }
   }
   dragStartHandler(key, event) {
-    console.log(this.props);
-    this.props.updateSelectedLetter(key);
+    console.log(this.props)
+    this.props.updateSelectedLetter(key)
   }
   dropHandler(key, event) {
-    event.preventDefault();
-    this.props.updateGuess(key);
+    event.preventDefault()
+    this.props.updateGuess(key)
   }
-  dragOverHandler(event) {
-    event.preventDefault();
+  dragOverHandler(key, event) {
+    event.preventDefault()
+    console.log(this.props.selectedLetter, key);
+    if (this.props.selectedLetter !== key) {
+      this.props.updateGuess(key)
+    }
   }
   render() {
     let { guess, correctGuess } = this.props;

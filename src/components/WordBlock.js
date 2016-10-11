@@ -7,7 +7,7 @@ class WordBlock extends Component {
       <li style={{width: "10%", textAlign: "center", borderColor: correctGuess ? "green" : "orange"}}
         draggable="true"
         onDragStart={dragStartHandler.bind(this, id)}
-        onDragOver={dragOverHandler}
+        onDragOver={dragOverHandler.bind(this, id)}
         onDrop={dropHandler.bind(this, id)}>
         <h2>{letter}</h2>
       </li>

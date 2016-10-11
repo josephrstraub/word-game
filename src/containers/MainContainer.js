@@ -12,8 +12,8 @@ const MainContainer = (props) => (
 )
 
 const mapStateToProps = (state) => {
-  let { word, guess, correctGuess, definition } = state
-  return {word, guess, correctGuess, definition}
+  let { word, guess, correctGuess, definition, selectedLetter } = state
+  return {word, guess, correctGuess, definition, selectedLetter}
 }
 
 const mapDispatchToProps = ({updateGuess, updateWord, updateSelectedLetter, startGame})
