@@ -26,9 +26,8 @@ class WordBlocks extends Component {
     event.preventDefault()
     this.props.updateGuess(key)
   }
-  dragEnterHandler(key, event) {
+  dragEnterHandler(event) {
     event.preventDefault()
-    this.props.updateGuess(key)
   }
   render() {
     let { guess, correctGuess, hoverIndex } = this.props;
