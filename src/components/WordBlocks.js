@@ -4,10 +4,10 @@ import WordBlock from './WordBlock'
 
 class WordBlocks extends Component {
   constructor() {
-    super();
+    super()
     this.dragStartHandler = this.dragStartHandler.bind(this)
     this.dropHandler = this.dropHandler.bind(this)
-    this.dragOverHandler = this.dragOverHandler.bind(this)
+    this.dragEnterHandler = this.dragEnterHandler.bind(this)
   }
   componentWillMount() {
     this.props.startGame()
@@ -26,18 +26,16 @@ class WordBlocks extends Component {
     event.preventDefault()
     this.props.updateGuess(key)
   }
-  dragOverHandler(key, event) {
+  dragEnterHandler(key, event) {
     event.preventDefault()
-    console.log(this.props.selectedLetter, key);
-    if (this.props.selectedLetter !== key) {
-      this.props.updateGuess(key)
-    }
+    this.props.updateGuess(key)
   }
   render() {
-    let { guess, correctGuess } = this.props;
+    let { guess, correctGuess, hoverIndex } = this.props;
+
     let blocks = guess.split("").map((letter, index) => (
       <WordBlock letter={letter} correctGuess={correctGuess} key={index} id={index} dragStartHandler={this.dragStartHandler}
-        dropHandler={this.dropHandler} dragOverHandler={this.dragOverHandler}/>
+        dropHandler={this.dropHandler} dragEnterHandler={this.dragEnterHandler}/>
     ))
     return (
       <div>
