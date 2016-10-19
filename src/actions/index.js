@@ -5,19 +5,14 @@ const SORTED_WORDS = _(words).keys().groupBy((word) => _.sortBy(word).join('')).
 window._ = _
 window.words = words
 
-
-export const updateGuess = (key) => ({
-  type: 'UPDATE_GUESS',
-  key
+export const onSortEnd = ({ oldIndex, newIndex }) => ({
+  type: 'ON_SORT_END',
+  oldIndex,
+  newIndex
 })
 
 export const updateWord = () => ({
   type: 'NEW_WORD'
-})
-
-export const updateSelectedLetter = (key) => ({
-  type: 'UPDATE_SELECTED_LETTER',
-  key
 })
 
 function getAnswerPossibilties(word, hint) {

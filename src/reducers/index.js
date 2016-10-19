@@ -1,13 +1,13 @@
 import words from '../data/words.json'
 import _ from 'lodash'
 import { getWordChain } from '../actions'
+import { arrayMove } from 'react-sortable-hoc'
+
 
 const initialState = {
   word: null,
   definition: "",
-  guess: "",
-  correctGuess: false,
-  selectedLetter: 0,
+  blocks: [],
   wordChain: null,
   nextChain: null
 }
@@ -20,24 +20,10 @@ const wordsApp = (state = initialState, action) => {
       return {
         ...state,
         word,
+        blocks: _.shuffle(word.split("")),
         definition: words[word],
         wordChain: getWordChain(word, 4),
-        nextChain: getWordChain(nextWord, 4),
-        guess: _.shuffle(word).join("")
-      }
-    case 'UPDATE_GUESS':
-      let newGuess
-      if (action.key < state.selectedLetter) {
-        newGuess = state.guess.slice(0, action.key) + state.guess[state.selectedLetter] + state.guess[action.key] + state.guess.slice(action.key + 1, state.selectedLetter) + state.guess.slice(state.selectedLetter + 1)
-      } else if (action.key > state.selectedLetter) {
-        newGuess = state.guess.slice(0, state.selectedLetter) + state.guess.slice(state.selectedLetter + 1, action.key) + state.guess[action.key] + state.guess[state.selectedLetter] + state.guess.slice(action.key + 1)
-      } else {
-        return state
-      }
-      return {
-        ...state,
-        guess: newGuess,
-        correctGuess: newGuess === state.word
+        nextChain: getWordChain(nextWord, 4)
       }
     case 'NEW_WORD':
       if ( state.wordChain.indexOf(state.word) + 1 === state.wordChain.length ) {
@@ -47,9 +33,8 @@ const wordsApp = (state = initialState, action) => {
         return {
           ...state,
           word: newWord,
-          definition: words[newWord],
-          correctGuess: false,
-          guess: _.shuffle(newWord).join("")
+          blocks: _.shuffle(newWord.split("")),
+          definition: words[newWord]
         }
       }
     case 'NEW_CHAIN':
@@ -61,13 +46,11 @@ const wordsApp = (state = initialState, action) => {
         definition: words[state.nextChain[0]],
         wordChain: state.nextChain,
         nextChain: getWordChain(nextChainBase, 4),
-        guess: _.shuffle(state.nextChain[0]).join(""),
-        correctGuess: false
       }
-    case 'UPDATE_SELECTED_LETTER':
+    case 'ON_SORT_END':
       return {
         ...state,
-        selectedLetter: action.key
+        blocks: arrayMove(state.blocks, action.oldIndex, action.newIndex)
       }
     default:
       return state

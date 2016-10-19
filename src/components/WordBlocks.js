@@ -1,44 +1,37 @@
 import React, { Component } from 'react'
+import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import WordBlock from './WordBlock'
 
+const SortableItem = SortableElement(({letter, isCorrect}) => <li><h1 style={{color: isCorrect ? "green" : "black"}}>{letter}</h1></li>)
+
+const SortableList = SortableContainer(({blocks, word}) => {
+  let guess = blocks.join("")
+  return (
+    <ul>
+      {blocks.map((letter, index) =>
+        <SortableItem  key={`item-${index}`} index={index} letter={letter} isCorrect={word === guess} />
+      )}
+    </ul>
+  )
+})
 
 class WordBlocks extends Component {
-  constructor() {
-    super()
-    this.dragStartHandler = this.dragStartHandler.bind(this)
-    this.dropHandler = this.dropHandler.bind(this)
-    this.dragEnterHandler = this.dragEnterHandler.bind(this)
-  }
   componentWillMount() {
     this.props.startGame()
   }
   componentWillReceiveProps(nextProps) {
-    let { correctGuess, updateWord } = nextProps;
-    if (correctGuess) {
+    let { word, blocks, updateWord } = nextProps;
+    let guess = blocks.join("")
+    if (guess === word) {
       window.setTimeout(updateWord, 3000)
     }
   }
-  dragStartHandler(key, event) {
-    console.log(this.props)
-    this.props.updateSelectedLetter(key)
-  }
-  dropHandler(key, event) {
-    event.preventDefault()
-    this.props.updateGuess(key)
-  }
-  dragEnterHandler(event) {
-    event.preventDefault()
-  }
   render() {
-    let { guess, correctGuess, hoverIndex } = this.props;
-
-    let blocks = guess.split("").map((letter, index) => (
-      <WordBlock letter={letter} correctGuess={correctGuess} key={index} id={index} dragStartHandler={this.dragStartHandler}
-        dropHandler={this.dropHandler} dragEnterHandler={this.dragEnterHandler}/>
-    ))
+    let  { word, blocks, onSortEnd } = this.props
+    console.log(blocks)
     return (
       <div>
-        <ul style={{display: "flex", listStyleType: "none", justifyContent: "center", padding: "0"}}>{blocks}</ul>
+        <SortableList word={word} blocks={blocks} onSortEnd={onSortEnd} axis='x' lockAxis='x' />
       </div>
     )
   }
