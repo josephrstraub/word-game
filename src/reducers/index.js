@@ -9,7 +9,8 @@ const initialState = {
   definition: "",
   blocks: [],
   wordChain: null,
-  nextChain: null
+  nextChain: null,
+  nextHint: 0
 }
 
 const wordsApp = (state = initialState, action) => {
@@ -34,8 +35,17 @@ const wordsApp = (state = initialState, action) => {
           ...state,
           word: newWord,
           blocks: _.shuffle(newWord.split("")),
-          definition: words[newWord]
+          definition: words[newWord],
+          nextHint: 0
         }
+      }
+    case 'SHUFFLE_WORD':
+      return {
+        ...state,
+        blocks: [
+          ...state.blocks.slice(0, state.nextHint),
+          ..._.shuffle(state.blocks.slice(state.nextHint))
+        ]
       }
     case 'NEW_CHAIN':
       console.log("NEW CHAIN is running");
@@ -46,11 +56,20 @@ const wordsApp = (state = initialState, action) => {
         definition: words[state.nextChain[0]],
         wordChain: state.nextChain,
         nextChain: getWordChain(nextChainBase, 4),
+        nextHint: 0
       }
     case 'ON_SORT_END':
       return {
         ...state,
         blocks: arrayMove(state.blocks, action.oldIndex, action.newIndex)
+      }
+    case 'GIVE_HINT':
+      let hintLetter = state.word[state.nextHint]
+      let oldIndex = state.blocks.indexOf(hintLetter, state.nextHint)
+      return {
+        ...state,
+        blocks: arrayMove(state.blocks, oldIndex, state.nextHint),
+        nextHint: state.nextHint + 1
       }
     default:
       return state

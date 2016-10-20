@@ -13,7 +13,7 @@ ul {
 
 li {
   list-style-type: none;
-  width: 5%;
+  width: 72px;
   background-color: #DFC7A5;
   box-shadow:
     inset 3px 3px 5px 0px RGBA(0,0,0,.1),
@@ -26,4 +26,42 @@ li:hover {
 
 h1 {
   text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  width: 35%;
+  margin: auto;
+}
+
+button {
+    border:none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+button {
+  border: 1px solid grey;
+  color: grey;
+  border-radius: 24px;
+  padding: 20px 50px;
+  font-size: 22px;
+  width: 170px;
+}
+
+@media(max-width: 700px) {
+  li {
+    width: 10%
+  }
+  .button-container {
+    width: 100%;
+  }
 }

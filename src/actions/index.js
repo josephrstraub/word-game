@@ -40,10 +40,16 @@ export function getWordChain(startWord, count) {
   return result;
 }
 
-export const startGame = () => {
-  return ({
+export const startGame = () => ({
     type: 'START_GAME'
-  })
-}
+})
+
+export const shuffleWord = () => ({
+  type: 'SHUFFLE_WORD'
+})
+
+export const giveHint = () => ({
+  type: 'GIVE_HINT'
+})
 
 window.getWordChain = getWordChain
